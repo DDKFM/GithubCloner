@@ -13,7 +13,7 @@ fun main(args : Array<String>) {
     val maxRepos = currentFetchedRepos + 5000
     val gitLinks : MutableList<String> = mutableListOf()
     while(currentFetchedRepos < maxRepos) {
-        val url = URL("https://api.github.com/repositories?access_token=ACCESS_TOKEN&since=$currentFetchedRepos")
+        val url = URL("https://api.github.com/repositories?access_token=&since=$currentFetchedRepos")
         var connection = url?.openConnection()
         println(connection.getHeaderField("X-RateLimit-Limit"))
         println(connection.getHeaderField("X-RateLimit-Remaining"))
