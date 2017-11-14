@@ -10,17 +10,26 @@ import java.util.stream.Collectors
  */
 fun main(args : Array<String>) {
     var currentFetchedRepos = 0
-    val maxRepos = currentFetchedRepos + 5000
+    val maxRepos = currentFetchedRepos + 1000
     val gitLinks : MutableList<String> = mutableListOf()
+    val keyword = "created:>2017-01-01"
+    val sort = "stars"
+    val order = "desc"
+    val accessToken = ""
+    val language = ""
+    val pages = "1000"
     while(currentFetchedRepos < maxRepos) {
-        val url = URL("https://api.github.com/repositories?access_token=&since=$currentFetchedRepos")
+        val url = URL("https://api.github.com/search/repositories?access_token=$accessToken&q=$keyword&language=$language&per_page=$pages&sort=$sort?order=$order&fork=false") //repositories?access_token=548de33a5fb666f3f3dd737a4f065ff9ae829332&since=$currentFetchedRepos")
         var connection = url?.openConnection()
-        println(connection.getHeaderField("X-RateLimit-Limit"))
-        println(connection.getHeaderField("X-RateLimit-Remaining"))
+        val remaining : Int = Integer.parseInt(connection.getHeaderField("X-RateLimit-Remaining"))
+        if(remaining <= 2) {
+            Thread.sleep(10)
+        }
         val bytes: ByteArray = connection.getInputStream().readBytes()
         val content = StringBuilder(String(bytes))
         val parser: Parser = Parser()
-        val json: JsonArray<JsonObject> = parser.parse(content) as JsonArray<JsonObject>
+        val responseAsJSON : JsonObject= parser.parse(content) as JsonObject
+        val json : JsonArray<JsonObject> = responseAsJSON.array<JsonObject>("items") as JsonArray<JsonObject>
         var list : List<String> = json.value
                 .stream()
                 .filter { !(it.boolean("fork") as Boolean) }//no forks allowed
