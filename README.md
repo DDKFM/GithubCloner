@@ -8,17 +8,17 @@ mvnw.cmd clean package
 
 # run
 
-java -jar target/GithubCloner-1.0-jar-with-dependencies.jar --username <username> --password <password>
+java -jar target/GithubCloner-1.0-jar-with-dependencies.jar --username \<username\> --password \<password\>
 
 
 # additional parameters
 
---repos <location for repos>
+--repos \<location for repos\>
 
---query <search query>
+--query \<search query\>
 
---pages <page size>
+--pages \<page size\>
 
---language <programming language>
+--language \<programming language\>
 
---threads <max threads for git cloning>
+--threads \<max threads for git cloning\>
