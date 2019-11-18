@@ -2,7 +2,7 @@
 
 # build
 ## Linux
-./mnvw clean package
+./mvnw clean package
 ## Windows
 mvnw.cmd clean package
 
